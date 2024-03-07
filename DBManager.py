@@ -1,13 +1,13 @@
 import psycopg2
+from data_files.config import config
 
 
 class DBManager:
     """Класс подключение к бд заполнение ее и фильтрация"""
     def __init__(self, database_name):
-        self.conn = psycopg2.connect(dbname=database_name,
-                                     host='localhost',
-                                     user='postgres',
-                                     password='104818')
+        self.params = config()
+        self.params.update({'dbname': database_name})
+        self.conn = psycopg2.connect(**self.params)
         self.cur = self.conn.cursor()
 
     def get_companies_and_vacancies_count(self):
